@@ -1,4 +1,6 @@
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.stream.Stream;
 
 public class Main {
@@ -14,29 +16,34 @@ public class Main {
         Product[] productArray = {product1, product2, product3, product4, product5};
 
 
-        // створюю нові масиви такої довжини, щоб точно всі продукти влізли, якщо всі будуть однієї категорії
-        Product[] productsOfLowCategory = new Product[productArray.length];
-        Product[] productsOfHighCategory = new Product[productArray.length];
-        Product[] productsOfPremiumCategory = new Product[productArray.length];
+
+       //Створюю лісти
+        List<Product> ListOfHighCatgory = new ArrayList<>();
+        List<Product> ListOfLowCategoty = new ArrayList<>();
+        List<Product> ListOfPremiumCategory = new ArrayList<>();
 
 
-        //тут не знайшла, як записати продукти в масиви за категоріями, не використовуючи при цьому колекцію, але завдання було - тільки масиви.
-        //тому продукти за категоріями хоча б виведу на екран.
-        // Мабуть, там треба використати метод toArray, але в мене ніяк не виходить
+        //записую в лісти, а потім їх переведу в масиви
         for (Product i : productArray) {
             if (i.getCategory() == Product.Category.High) {
-                System.out.println("High category is in " + i.getDescription());
+                ListOfHighCatgory.add(i);
+                //System.out.println("High category is in " + i.getDescription());
             } else if (i.getCategory() == Product.Category.Premium) {
-                System.out.println("Premiun category is in " + i.getDescription());
+                ListOfPremiumCategory.add(i);
+                //System.out.println("Premiun category is in " + i.getDescription());
             } else if (i.getCategory() == Product.Category.Low) {
-                System.out.println("Low catecory is in " + i.getDescription());
+                ListOfLowCategoty.add(i);
+                //System.out.println("Low catecory is in " + i.getDescription());
             } else {
                 System.out.println("Something went wrong with Categories");
             }
         }
 
-        //Цей код мав використовуватись для перевірки, якби я таки записала масиви з категоріями
+        //Переводжу лісти в масиви і перевіряю
         try {
+            Product[] productsOfHighCategory = ListOfHighCatgory.toArray(new Product[0]);
+            Product[] productsOfPremiumCategory = ListOfPremiumCategory.toArray(new Product[0]);
+            Product[] productsOfLowCategory = ListOfLowCategoty.toArray(new Product[0]);
 
             for (Product x : productsOfHighCategory) {
                 System.out.println("Products with High category: " + x.getDescription());
