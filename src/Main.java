@@ -1,6 +1,4 @@
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Stream;
 
 public class Main {
@@ -12,58 +10,59 @@ public class Main {
         Product product4 = new Product("device", 100000, "iPhone", Product.Category.Low);
         Product product5 = new Product("Vegetable", 60, "cucumber", Product.Category.High);
 
-        //Складаємо в масив
+        //Переводжу масив у ліст
         Product[] productArray = {product1, product2, product3, product4, product5};
+        List<Product> listOfProducts = Arrays.asList(productArray);
 
 
+        //З аналізу на лекції
+        /*Product[] productWithHighCat = new Product[productArray.length];
+        Product[] productWithPremiumCat = new Product[productArray.length];
+        Product[] productWithLowCat = new Product[productArray.length];
 
-       //Створюю лісти
-        List<Product> ListOfHighCatgory = new ArrayList<>();
-        List<Product> ListOfLowCategoty = new ArrayList<>();
-        List<Product> ListOfPremiumCategory = new ArrayList<>();
+        for (int i = 0; i < productArray.length; i++) {
+            if (productArray[i].getCategory().equals(Product.Category.High)) {
+                productWithHighCat[i] = productArray[i];
+            }
+            if (productArray[i].getCategory().equals(Product.Category.Premium)) {
+                productWithPremiumCat[i] = productArray[i];
+            }
+            if (productArray[i].getCategory().equals(Product.Category.Low)) {
+                productWithLowCat[i] = productArray[i];
+            }
+        } */
+
+        //Створюю лісти
+        List<Product> listOfHighCatgory = new ArrayList<>();
+        List<Product> listOfLowCategoty = new ArrayList<>();
+        List<Product> listOfPremiumCategory = new ArrayList<>();
 
 
-        //записую в лісти, а потім їх переведу в масиви
-        for (Product i : productArray) {
+        //за категоріями
+        for (Product i : listOfProducts) {
             if (i.getCategory() == Product.Category.High) {
-                ListOfHighCatgory.add(i);
-                //System.out.println("High category is in " + i.getDescription());
+                listOfHighCatgory.add(i);
+
             } else if (i.getCategory() == Product.Category.Premium) {
-                ListOfPremiumCategory.add(i);
-                //System.out.println("Premiun category is in " + i.getDescription());
+                listOfPremiumCategory.add(i);
+
             } else if (i.getCategory() == Product.Category.Low) {
-                ListOfLowCategoty.add(i);
-                //System.out.println("Low catecory is in " + i.getDescription());
+                listOfLowCategoty.add(i);
+
             } else {
                 System.out.println("Something went wrong with Categories");
             }
         }
 
-        //Переводжу лісти в масиви і перевіряю
-        try {
-            Product[] productsOfHighCategory = ListOfHighCatgory.toArray(new Product[0]);
-            Product[] productsOfPremiumCategory = ListOfPremiumCategory.toArray(new Product[0]);
-            Product[] productsOfLowCategory = ListOfLowCategoty.toArray(new Product[0]);
 
-            for (Product x : productsOfHighCategory) {
-                System.out.println("Products with High category: " + x.getDescription());
-            }
-            for (Product x : productsOfPremiumCategory) {
-                System.out.println("Products with Premium category: " + x.getDescription());
-            }
-            for (Product x : productsOfLowCategory) {
-                System.out.println("Products with Low category: " + x.getDescription());
-            }
-        } catch (NullPointerException ex) {
-            System.out.println("Null");
-        }
-
-
+        System.out.println("Products with high category: " + listOfHighCatgory);
+        System.out.println("Products with premium category: " + listOfPremiumCategory);
+        System.out.println("Products with low category" + listOfLowCategoty);
 
 
 //Посчитать количество продуктов с ценой ниже 100
         int countForPrice = 0;
-        for (Product x : productArray) {
+        for (Product x : listOfProducts) {
             if (x.getPrice() < 100) {
                 countForPrice = countForPrice + 1;
             } else {
@@ -73,10 +72,9 @@ public class Main {
         System.out.println("There are " + countForPrice + " products which price is less than 100 ghn");
 
 
-
         //Посчитать количество объектов которые имеют "vegetable" в названии
         int countForName = 0;
-        for (Product x : productArray) {
+        for (Product x : listOfProducts) {
             if (x.getName().equalsIgnoreCase("Vegetable")) {
                 countForName = countForName + 1;
             } else {
@@ -85,5 +83,19 @@ public class Main {
         }
         System.out.println("There are " + countForName + " products which Name is \"Vegetable\"");
 
+
+        //sorting by Comparable
+       // System.out.println("Before sorting: " + listOfProducts);
+        //Collections.sort(listOfProducts);
+        //System.out.println("After sorting: " + listOfProducts);
+
+
+        Comparator priceComparator = new ComparatorByPrice();
+        Collections.sort(listOfProducts, priceComparator);
+        System.out.println("Sorted by price - " + listOfProducts);
+
+        Comparator nameComparator = new ComparatorByName();
+        Collections.sort(listOfProducts, nameComparator);
+        System.out.println("Sorted by name - " + listOfProducts);
     }
 }
